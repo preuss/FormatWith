@@ -9,7 +9,7 @@
     <AssemblyTitle>FormatWith</AssemblyTitle>
     <PackageId>FormatWith</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
-    <Authors>Ryan Crosby</Authors>
+    <Authors>Ryan Crosby;Overwatch (Preuss)</Authors>
     <Copyright>Copyright © Ryan Crosby 2017</Copyright>
     <PackageTags>named string formatter extension NetStandard 2.0</PackageTags>
     <PackageProjectUrl>https://github.com/crozone/FormatWith</PackageProjectUrl>
