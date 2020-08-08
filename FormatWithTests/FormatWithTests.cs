@@ -3,7 +3,8 @@ using Xunit;
 using FormatWith;
 using System.Collections.Generic;
 using System.Linq;
-using static FormatWithTests.TestStrings;
+using static FormatWithTests.Values.TestStrings;
+using FormatWithTests.Values;
 
 namespace FormatWithTests {
 	public class FormatWithTests {
@@ -138,6 +139,28 @@ namespace FormatWithTests {
 
 			Assert.Equal("321FEDcba, ABCDEF123, abcdef123.", replacement);
 		}
+
+		[Fact]
+		public void TestCustomHandler3() {
+			string formatString = "Hi {Field}, Yeah {getter}, Another {AnotherMethod}, This is {Property}";
+			IEnumerable<string> formatParameters = formatString.GetFormatParameters();
+			Assert.Equal(4, formatParameters.Count());
+
+			string formattedString = formatString.FormatWith(new ValueObject());
+
+			Assert.Equal("Hi Field, Yeah Get Method, Another Method2, This is Property Value", formattedString);
+		}
+
+
+		[Fact]
+		public void TestObjectStringNotationCustomHandler() {
+			string formatString = "Hi {person.Name}, your age is {person.age}";
+			var formatParameters = formatString.GetFormatParameters();
+			Assert.Equal(2, formatParameters.Count());
+
+			string formattedString = formatString.FormatWith(new PersonHolder());
+		}
+
 
 		[Fact]
 		public void SpeedTest() {

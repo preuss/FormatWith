@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using FormatWith;
 using FormatWithTests.FormatProvider;
-using static FormatWithTests.TestStrings;
+using static FormatWithTests.Values.TestStrings;
 
 namespace FormatWithTests {
 	public class FormattableWithTests {

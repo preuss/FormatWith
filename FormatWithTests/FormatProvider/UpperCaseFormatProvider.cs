@@ -9,8 +9,9 @@ namespace FormatWithTests.FormatProvider {
 		}
 
 		public object GetFormat(Type formatType) {
-			if(formatType == typeof(ICustomFormatter))
+			if(formatType == typeof(ICustomFormatter)) {
 				return _formatter;
+			}
 
 			return null;
 		}

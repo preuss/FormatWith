@@ -4,7 +4,7 @@ using System.Text;
 using System.Linq;
 using Xunit;
 using FormatWith;
-using static FormatWithTests.TestStrings;
+using static FormatWithTests.Values.TestStrings;
 
 namespace FormatWithTests {
 	public class MiscTests {
@@ -17,7 +17,7 @@ namespace FormatWithTests {
 		[Fact]
 		public void TestGetFormatParameters() {
 			List<string> parameters = TestFormat4.GetFormatParameters().ToList();
-			Assert.Equal(parameters.Count, 2);
+			Assert.Equal(2, parameters.Count);
 			Assert.Equal(nameof(Replacement1), parameters[0]);
 			Assert.Equal(nameof(Replacement2), parameters[1]);
 		}

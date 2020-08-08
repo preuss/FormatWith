@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormatWithTests {
+namespace FormatWithTests.Values {
 	public static class TestStrings {
 		public static readonly string Replacement1 = "Replacement1";
 		public static readonly string Replacement2 = "Replacement {} Two ";

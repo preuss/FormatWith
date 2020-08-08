@@ -13,16 +13,18 @@ namespace FormatWith.Internal {
 		/// Processes a list of format tokens into a string
 		/// </summary>
 		/// <param name="tokens">List of tokens to turn into a string</param>
-		/// <param name="replacements">An <see cref="IDictionary"/> with keys and values to inject into the formatted result</param>
+		/// <param name="replacementHandler">An <see cref="Func{T, TResult}"/> using {token} as input and injects values into the string and formats the result</param>
 		/// <param name="missingKeyBehaviour">The behaviour to use when the format string contains a parameter that is not present in the lookup dictionary</param>
 		/// <param name="fallbackReplacementValue">When the <see cref="MissingKeyBehaviour.ReplaceWithFallback"/> is specified, this string is used as a fallback replacement value when the parameter is present in the lookup dictionary.</param>
+		/// <param name="outputLengthHint">This is only an optimization hint for the internal of the <see cref="StringBuilder"/> initial size.</param>
 		/// <returns>The processed result of joining the tokens with the replacement dictionary.</returns>
 		public static string ProcessTokens(
-		IEnumerable<FormatToken> tokens,
-		Func<string, ReplacementArgument, ReplacementResult> handler,
-		MissingKeyBehaviour missingKeyBehaviour,
-		object fallbackReplacementValue,
-		int outputLengthHint) {
+			IEnumerable<FormatToken> tokens,
+			Func<string, ReplacementArgument, ReplacementResult> replacementHandler,
+			MissingKeyBehaviour missingKeyBehaviour,
+			object fallbackReplacementValue,
+			int outputLengthHint
+		) {
 			// create a StringBuilder to hold the resultant output string
 			// use the input hint as the initial size
 			StringBuilder resultBuilder = new StringBuilder(outputLengthHint);
@@ -44,7 +46,7 @@ namespace FormatWith.Internal {
 					}
 
 					// append the replacement for this parameter
-					ReplacementResult replacementResult = handler(tokenKey, new ReplacementArgument(format));
+					ReplacementResult replacementResult = replacementHandler(tokenKey, new ReplacementArgument(format));
 
 					if(replacementResult.Success) {
 						// the key exists, add the replacement value
@@ -82,16 +84,18 @@ namespace FormatWith.Internal {
 		/// Processes a list of format tokens into a string
 		/// </summary>
 		/// <param name="tokens">List of tokens to turn into a string</param>
-		/// <param name="replacements">An <see cref="IDictionary"/> with keys and values to inject into the formatted result</param>
+		/// <param name="replacementHandler">An <see cref="Func{T, TResult}"/> using {token} as input and injects values into the string and formats the result</param>
 		/// <param name="missingKeyBehaviour">The behaviour to use when the format string contains a parameter that is not present in the lookup dictionary</param>
 		/// <param name="fallbackReplacementValue">When the <see cref="MissingKeyBehaviour.ReplaceWithFallback"/> is specified, this string is used as a fallback replacement value when the parameter is present in the lookup dictionary.</param>
+		/// <param name="outputLengthHint">This is only an optimization hint for the internal of the <see cref="StringBuilder"/> initial size.</param>
 		/// <returns>The processed result of joining the tokens with the replacement dictionary.</returns>
 		public static FormattableString ProcessTokensIntoFormattableString(
 			IEnumerable<FormatToken> tokens,
-			Func<string, ReplacementResult> handler,
+			Func<string, ReplacementResult> replacementHandler,
 			MissingKeyBehaviour missingKeyBehaviour,
 			object fallbackReplacementValue,
-			int outputLengthHint) {
+			int outputLengthHint
+		) {
 			List<object> replacementParams = new List<object>();
 
 			// create a StringBuilder to hold the resultant output string
@@ -120,7 +124,7 @@ namespace FormatWith.Internal {
 					}
 
 					// append the replacement for this parameter
-					ReplacementResult replacementResult = handler(tokenKey);
+					ReplacementResult replacementResult = replacementHandler(tokenKey);
 
 					string IndexAndFormat() {
 						if(string.IsNullOrWhiteSpace(format)) {
